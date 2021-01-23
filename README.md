@@ -44,3 +44,27 @@ $ npm run start
 ```
 
 ### デプロイ(外部公開)について
+
+```sh
+brew install awscli
+```
+
+AWSのセキュリティ認証情報からアクセスキーを取得します。
+
+**docker-compose.prod.yml** や下記の`301151589520.dkr.ecr.ap-northeast-1.amazonaws.com` は自身のECRのURLでお願いします。
+
+```sh
+$ docker context create ecs winter
+# ここでAWSのアクセスキーIDとシークレットアクセスキーの入力をする
+$ aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 301151589520.dkr.ecr.ap-northeast-1.amazonaws.com
+$ make docker/build
+$ make docker/prod/push
+$ docker context use winter
+$ make docker/prod/up
+```
+
+#### 削除の仕方
+
+```sh
+$ make docker/prod/down
+```
