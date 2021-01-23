@@ -11,7 +11,7 @@ JAVA=$(EXEC) java
 DB=$(EXEC) mysql
 REDIS=$(EXEC) redis
 
-all: docker/up
+all: docker/up db/wait
 
 docker/build: ## docker build
 	$(BUILD)

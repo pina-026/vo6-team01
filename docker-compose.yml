@@ -6,14 +6,16 @@ volumes:
 
 services:
   java:
-    image: openjdk:15-slim
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     tty: true
     restart: always
     volumes:
-      - ./api:/usr/api
-    working_dir: /usr/api
+      - ./api:/api:rw
+    working_dir: /api
 
   react:
     build:
@@ -24,8 +26,8 @@ services:
     tty: true
     restart: always
     volumes:
-      - ./front:/usr/front
-    working_dir: /usr/front
+      - ./front:/front:rw
+    working_dir: /front
 
   mysql:
     image: mysql:latest
