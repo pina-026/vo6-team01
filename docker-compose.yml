@@ -1,0 +1,56 @@
+version: "3"
+
+volumes:
+  mysqldb: {}
+  redisdb: {}
+
+services:
+  java:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    tty: true
+    restart: always
+    volumes:
+      - ./api:/usr/api
+    working_dir: /usr/api
+  react:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    tty: true
+    restart: always
+    volumes:
+      - ./front:/usr/front
+    working_dir: /usr/front
+  mysql:
+    image: mysql:latest
+    container_name: winter-mysql
+    ports:
+      - "3306"
+    volumes:
+      - mysqldb:/var/lib/mysql
+      - .docker/mysql/conf.d:/etc/mysql/conf.d
+      - .docker/mysql/init.d:/docker-entrypoint-initdb.d
+      - .docker/mysql/access.cnf:/home/access.cnf
+      - .docker/mysql/wait.sh:/home/wait.sh
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: winter
+      MYSQL_USER: winter
+      MYSQL_PASSWORD: password
+
+  redis:
+    image: redis:latest
+    container_name: winter-redis
+    ports:
+      - "6379"
+    volumes:
+      - redisdb:/data
+    restart: always
+    command: redis-server --requirepass password --appendonly yes
