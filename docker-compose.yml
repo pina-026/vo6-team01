@@ -14,6 +14,7 @@ services:
     volumes:
       - ./api:/usr/api
     working_dir: /usr/api
+
   react:
     build:
       context: ./front
@@ -25,6 +26,7 @@ services:
     volumes:
       - ./front:/usr/front
     working_dir: /usr/front
+
   mysql:
     image: mysql:latest
     container_name: winter-mysql
