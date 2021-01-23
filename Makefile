@@ -1,6 +1,8 @@
 COMPOSE=docker-compose
 EXEC=$(COMPOSE) exec
 BUILD=$(COMPOSE) build
+PRODUP=docker compose up
+PRODDOWN=docker compose down
 UP=$(COMPOSE) up -d
 LOGS=$(COMPOSE) logs
 STOP=$(COMPOSE) stop
@@ -15,6 +17,15 @@ all: docker/up db/wait
 
 docker/build: ## docker build
 	$(BUILD)
+
+docker/prod/up: ## docker prod up
+	$(PRODUP) -f docker-compose.prod.yml
+
+docker/prod/push: ## docker prod push
+	$(COMPOSE) push
+
+docker/prod/down: ## docker prod down
+	$(PRODDOWN) -f docker-compose.prod.yml
 
 docker/up: ## docker up
 	$(UP)
