@@ -2,40 +2,22 @@ version: "3"
 
 services:
   java:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
     image: 301151589520.dkr.ecr.ap-northeast-1.amazonaws.com/java
     ports:
       - 8080:8080
-    tty: true
-    restart: always
-    volumes:
-      - ./api:/api:rw
     working_dir: /api
 
   react:
-    build:
-      context: ./front
-      dockerfile: Dockerfile
     image: 301151589520.dkr.ecr.ap-northeast-1.amazonaws.com/react
     ports:
       - "3000:3000"
-    tty: true
-    restart: always
-    volumes:
-      - ./front:/front:rw
     working_dir: /front
 
   mysql:
-    build:
-      context: ./.docker/mysql
-      dockerfile: Dockerfile
     image: 301151589520.dkr.ecr.ap-northeast-1.amazonaws.com/mysql
     container_name: winter-mysql
     ports:
       - "3306"
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: winter
@@ -47,5 +29,4 @@ services:
     container_name: winter-redis
     ports:
       - "6379"
-    restart: always
     command: redis-server --requirepass password --appendonly yes
