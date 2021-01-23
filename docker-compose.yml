@@ -6,9 +6,7 @@ volumes:
 
 services:
   java:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
+    image: openjdk:15-slim
     ports:
       - 8080:8080
     tty: true
