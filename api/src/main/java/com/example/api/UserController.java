@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserController {
   @Autowired
   private UserRepository userRepository;
-  @Autowired
   private PasswordEncoder passwordEncoder;
 
   private String passwordEncode(String rawPassword) {
@@ -22,8 +21,8 @@ public class UserController {
   }
 
   @PostMapping(path="/signup") // Map ONLY POST Requests
-  public @ResponseBody String addNewUser (@RequestParam String username
-      , @RequestParam String email, @RequestParam String password) {
+  public @ResponseBody String addNewUser (@RequestParam String username,
+      @RequestParam String email, @RequestParam String password, @RequestParam Boolean admin) {
     // @ResponseBody means the returned String is the response, not a view name
     // @RequestParam means it is a parameter from the GET or POST request
 
@@ -31,6 +30,7 @@ public class UserController {
     n.setUsername(username);
     n.setEmail(email);
     n.setPassword(passwordEncode(password));
+    n.setAdmin(admin);
     userRepository.save(n);
     return "Saved";
   }
