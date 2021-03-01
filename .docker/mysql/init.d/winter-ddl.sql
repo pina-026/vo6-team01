@@ -1,11 +1,13 @@
 CREATE DATABASE IF NOT EXISTS `winter`;
 
 CREATE TABLE IF NOT EXISTS `winter`.`users` (
-	id INT AUTO_INCREMENT,
-    username VARCHAR(255),
-	email VARCHAR(255),
-    password VARCHAR(255),
-    PRIMARY KEY(id)
+	id INT AUTO_INCREMENT NOT NULL,
+    username VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+	admin_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY(id),
+	UNIQUE KEY(email)
 );
 
 CREATE TABLE `winter`.`SPRING_SESSION` (
